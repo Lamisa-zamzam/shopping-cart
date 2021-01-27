@@ -12,12 +12,12 @@
 
 <body>
 
-   <section>
+   <section id="mainSection">
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
                <div class="cart-item">
-                  <div class="row">
+                  <div class="row" id="mobileItem">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
                         <h5>iPhone 11 128GB Black</h5>
@@ -25,17 +25,17 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default" id="removeMobile"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1" id="mobileNumber">
+                           <input type="text" class="form-control text-center" value="0" id="mobileNumber">
                            <button id="addToItems" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$ <span id="mobilePrice"> 1219</span></h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="mobilePrice"> 0</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="crossSign1">
                      </div>
                   </div>
                </div>
 
                <div class="cart-item">
-                  <div class="row">
+                  <div class="row" id="caseItem">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
                         <h5>iPhone 11 Silicone Case - Black</h5>
@@ -43,12 +43,12 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default" id="removeCase"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1" id="caseNumber">
+                           <input type="text" class="form-control text-center" value="0" id="caseNumber">
                            <button id="addCase" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$ <span id="casePrice">59</span> </h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="casePrice">0</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="crossSign2">
                      </div>
                   </div>
                </div>
@@ -63,89 +63,100 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$ <span id="subtotalPrice"> 1,278</span></h5>
+                        <h5>$ <span id="subtotalPrice"> 0</span></h5>
                         <h5>$ <span id="tax"> 0</span></h5>
-                        <h5>$ <span id="totalPrice"> 1,278</span></h5>
+                        <h5>$ <span id="totalPrice"> 0</span></h5>
                      </div>
                   </div>
                </div>
                <div class="col-md-12 pt-4 pb-4">
-                  <button type="button" class="btn btn-success check-out">Check Out</button>
+                  <button type="button" class="btn btn-success check-out" id="checkOutBtn">Check Out</button>
                </div>
             </div>
          </div>
       </div>
    </section>
    <script>
-      //mobile number
-      const plusOne = document.getElementById("addToItems");
-      plusOne.addEventListener("click",function(){  
-         const mobileNumber = document.getElementById("mobileNumber").value;
-         let mobileNumberValue = parseFloat(mobileNumber);
-         let currentNumber = mobileNumberValue + 1;
-         document.getElementById("mobileNumber").value = currentNumber;
-         //mobile total
-         let mobilePrice = document.getElementById("mobilePrice").innerText;
-         let mobilePriceNumber = parseFloat(mobilePrice);
-         let totalMobilePrice = mobilePriceNumber + 1219;
-         document.getElementById("mobilePrice").innerText = totalMobilePrice;
-         getSubtotal();
-         getTotal();
-      });   
-         //case number
-         const addMobileCase = document.getElementById("addCase");
-         addMobileCase.addEventListener("click",function(){
-            const caseNumber = document.getElementById("caseNumber").value; 
-            let caseNumberValue = parseFloat(caseNumber);
-            let currentCaseNumber = caseNumberValue + 1;
-            document.getElementById("caseNumber").value = currentCaseNumber;
-         //case price
-         const casePrice = document.getElementById("casePrice").innerText;
+      //increasing item
+      function getTotalItem(id) {
+         const caseNumber = document.getElementById(id).value;
+         let caseNumberValue = parseFloat(caseNumber);
+         let currentCaseNumber = caseNumberValue + 1;
+         document.getElementById(id).value = currentCaseNumber;
+      }
+      //getting item total 
+      function getItemPrice(id, price) {
+         const casePrice = document.getElementById(id).innerText;
          let casePriceNumber = parseFloat(casePrice);
-         let totalCasePrice = casePriceNumber + 59;
-         document.getElementById("casePrice").innerText = totalCasePrice;   
+         let totalCasePrice = casePriceNumber + price;
+         document.getElementById(id).innerText = totalCasePrice;
+      }
+      //decreasing item
+      function decreaseItem(id) {
+         const mobileNumber = document.getElementById(id).value;
+         let mobileNumberValue = parseFloat(mobileNumber);
+         let currentNumber = mobileNumberValue - 1;
+         document.getElementById(id).value = currentNumber;
+      }
+      //subtotal
+      function getSubtotal() {
+         const subtotal = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document
+            .getElementById("casePrice").innerText);
+         document.getElementById("subtotalPrice").innerText = subtotal;
+      };
+      //total
+      function getTotal() {
+         const total = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document
+            .getElementById("casePrice").innerText) + parseFloat(document.getElementById("tax").innerText);
+         document.getElementById("totalPrice").innerText = total;
+      };
+      //mobile adding
+      const plusOne = document.getElementById("addToItems");
+      plusOne.addEventListener("click", function () {
+         getTotalItem("mobileNumber");
+         getItemPrice("mobilePrice", 1219);
          getSubtotal();
          getTotal();
       });
-         //mobile number decreasing
-         const removeMobile = document.getElementById("removeMobile");
-         removeMobile.addEventListener("click", function(){
-            const mobileNumber = document.getElementById("mobileNumber").value; 
-            let mobileNumberValue = parseFloat(mobileNumber);
-            let currentNumber = mobileNumberValue - 1;
-            document.getElementById("mobileNumber").value = currentNumber; 
-         //mobile total minus 
-            const mobilePrice = document.getElementById("mobilePrice").innerText;
-            let mobilePriceNumber = parseFloat(mobilePrice);
-            let totalMobilePrice = mobilePriceNumber - 1219 ;
-            document.getElementById("mobilePrice").innerText = totalMobilePrice;
-            getSubtotal();
-            getTotal();
-         }) 
-         //case number decreasing
-         const removeCase = document.getElementById("removeCase");
-         removeCase.addEventListener("click", function(){
-            const caseNumber = document.getElementById("caseNumber").value; 
-            let caseNumberValue = parseFloat(caseNumber);
-            let currentCaseNumber = caseNumberValue - 1;
-            document.getElementById("caseNumber").value = currentCaseNumber;
-         //case price minus
-            const casePrice = document.getElementById("casePrice").innerText;
-            let casePriceNumber = parseFloat(casePrice);
-            let totalCasePrice = casePriceNumber - 59;
-            document.getElementById("casePrice").innerText = totalCasePrice; 
-            getSubtotal();
-            getTotal();
-         })
-         //subtotal
-         function getSubtotal(){
-         const subtotal = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document.getElementById("casePrice").innerText);
-         document.getElementById("subtotalPrice").innerText = subtotal;
-         };
-         function getTotal(){
-         const total = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document.getElementById("casePrice").innerText) + parseFloat(document.getElementById("tax").innerText);
-         document.getElementById("totalPrice").innerText = total;
-         };
+      //case adding 
+      const addMobileCase = document.getElementById("addCase");
+      addMobileCase.addEventListener("click", function () {
+         getTotalItem("caseNumber");
+         getItemPrice("casePrice", 59)
+         getSubtotal();
+         getTotal();
+      });
+      //mobile removing
+      const removeMobile = document.getElementById("removeMobile");
+      removeMobile.addEventListener("click", function () {
+         decreaseItem("mobileNumber");
+         getItemPrice("mobilePrice", -1219);
+         getSubtotal();
+         getTotal();
+      })
+      //case number decreasing
+      const removeCase = document.getElementById("removeCase");
+      removeCase.addEventListener("click", function () {
+         decreaseItem("caseNumber");
+         getItemPrice("casePrice", -59);
+         getSubtotal();
+         getTotal();
+      })
+      // function hideElement(id){
+      //    document.getElementById(id).parentNode.removeChild(getElementById(id));
+      // }
+      const crossSign1 = document.getElementById("crossSign1");
+      crossSign1.addEventListener("click", function () {
+         document.getElementById("mobileItem").style.display = "none";
+      })
+      const crossSign2 = document.getElementById("crossSign2");
+      crossSign2.addEventListener("click", function () {
+         document.getElementById("caseItem").style.display = "none";
+      })
+      const checkOutBtn = document.getElementById("checkOutBtn");
+      checkOutBtn.addEventListener("click", function () {
+         document.getElementById("mainSection").style.display = "none";
+      })
    </script>
 </body>
 
