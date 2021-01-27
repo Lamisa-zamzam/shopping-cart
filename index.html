@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default" id="removeMobile"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" value="1" id="mobileNumber">
+                           <button id="addToItems" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="mobilePrice"> 1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default" id="removeCase"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" value="1" id="caseNumber">
+                           <button id="addCase" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="casePrice">59</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="subtotalPrice"> 1,278</span></h5>
+                        <h5>$ <span id="tax"> 0</span></h5>
+                        <h5>$ <span id="totalPrice"> 1,278</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+      //mobile number
+      const plusOne = document.getElementById("addToItems");
+      plusOne.addEventListener("click",function(){  
+         const mobileNumber = document.getElementById("mobileNumber").value;
+         let mobileNumberValue = parseFloat(mobileNumber);
+         let currentNumber = mobileNumberValue + 1;
+         document.getElementById("mobileNumber").value = currentNumber;
+         //mobile total
+         let mobilePrice = document.getElementById("mobilePrice").innerText;
+         let mobilePriceNumber = parseFloat(mobilePrice);
+         let totalMobilePrice = mobilePriceNumber + 1219;
+         document.getElementById("mobilePrice").innerText = totalMobilePrice;
+         getSubtotal();
+         getTotal();
+      });   
+         //case number
+         const addMobileCase = document.getElementById("addCase");
+         addMobileCase.addEventListener("click",function(){
+            const caseNumber = document.getElementById("caseNumber").value; 
+            let caseNumberValue = parseFloat(caseNumber);
+            let currentCaseNumber = caseNumberValue + 1;
+            document.getElementById("caseNumber").value = currentCaseNumber;
+         //case price
+         const casePrice = document.getElementById("casePrice").innerText;
+         let casePriceNumber = parseFloat(casePrice);
+         let totalCasePrice = casePriceNumber + 59;
+         document.getElementById("casePrice").innerText = totalCasePrice;   
+         getSubtotal();
+         getTotal();
+      });
+         //mobile number decreasing
+         const removeMobile = document.getElementById("removeMobile");
+         removeMobile.addEventListener("click", function(){
+            const mobileNumber = document.getElementById("mobileNumber").value; 
+            let mobileNumberValue = parseFloat(mobileNumber);
+            let currentNumber = mobileNumberValue - 1;
+            document.getElementById("mobileNumber").value = currentNumber; 
+         //mobile total minus 
+            const mobilePrice = document.getElementById("mobilePrice").innerText;
+            let mobilePriceNumber = parseFloat(mobilePrice);
+            let totalMobilePrice = mobilePriceNumber - 1219 ;
+            document.getElementById("mobilePrice").innerText = totalMobilePrice;
+            getSubtotal();
+            getTotal();
+         }) 
+         //case number decreasing
+         const removeCase = document.getElementById("removeCase");
+         removeCase.addEventListener("click", function(){
+            const caseNumber = document.getElementById("caseNumber").value; 
+            let caseNumberValue = parseFloat(caseNumber);
+            let currentCaseNumber = caseNumberValue - 1;
+            document.getElementById("caseNumber").value = currentCaseNumber;
+         //case price minus
+            const casePrice = document.getElementById("casePrice").innerText;
+            let casePriceNumber = parseFloat(casePrice);
+            let totalCasePrice = casePriceNumber - 59;
+            document.getElementById("casePrice").innerText = totalCasePrice; 
+            getSubtotal();
+            getTotal();
+         })
+         //subtotal
+         function getSubtotal(){
+         const subtotal = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document.getElementById("casePrice").innerText);
+         document.getElementById("subtotalPrice").innerText = subtotal;
+         };
+         function getTotal(){
+         const total = parseFloat(document.getElementById("mobilePrice").innerText) + parseFloat(document.getElementById("casePrice").innerText) + parseFloat(document.getElementById("tax").innerText);
+         document.getElementById("totalPrice").innerText = total;
+         };
+   </script>
+</body>
+
+</html>
